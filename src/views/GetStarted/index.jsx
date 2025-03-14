@@ -6,6 +6,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Type from "Components/Type";
+import { m } from "framer-motion";
 
 const GetStarted = () => {
   // Access state from Redux store
@@ -17,13 +18,32 @@ const GetStarted = () => {
   const handleEdit = () => {
     navigate("/edit");
   };
+
   return (
     <>
       <Navbar />
-      <Stack sx={{ display: "flex", flexDirection: { xs: "column", md: "row", gap: 5 } }}>
-        <BCategories sx={{ display: "flex", flex: 1 }} />
-        <Color sx={{ display: "flex", flex: 1 }} />
-        <Type sx={{ display: "flex", flex: 1 }} />
+      <Stack
+        sx={{
+          display: "flex",
+          flex: 1,
+          flexDirection: { xs: "column", md: "row" },
+          gap: 3,
+          height: "100svh",
+          px: 2,
+        }}
+      >
+        <Stack
+          sx={{
+            display: "flex",
+            flex: 2,
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+          }}
+        >
+          <BCategories sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
+          <Color sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
+          <Type sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
+        </Stack>
 
         {/* Display selected values */}
 
