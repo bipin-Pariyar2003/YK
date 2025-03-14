@@ -13,6 +13,8 @@ export default defineConfig({
       Components: path.resolve(__dirname, "src/Components"),
       views: path.resolve(__dirname, "src/views"),
       assets: path.resolve(__dirname, "src/assets"),
+      redux: path.resolve(__dirname, "node_modules/redux"),
+      reducers: path.resolve(__dirname, "src/reducers"),
     },
   },
 });

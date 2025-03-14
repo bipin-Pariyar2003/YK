@@ -1,8 +1,15 @@
 import React from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import colors from "assets/colors";
+import { useDispatch } from "react-redux";
+import { setSelectedColor } from "reducers/colorSlice";
 
 const Color = () => {
+  const dispatch = useDispatch();
+
+  const handleColorClick = (color) => {
+    dispatch(setSelectedColor(color)); // Dispatch the selected color
+  };
   return (
     <Stack sx={{ width: "500px", height: "550px", mt: 2 }}>
       <Typography variant="h5" sx={{ textAlign: "center" }}>
@@ -11,7 +18,7 @@ const Color = () => {
       <Stack sx={{ overflowY: "auto", overflowX: "hidden" }}>
         {colors.map((color) => (
           <React.Fragment key={color}>
-            <Button>{color}</Button>
+            <Button onClick={() => handleColorClick(color)}>{color}</Button>
           </React.Fragment>
         ))}
       </Stack>

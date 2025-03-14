@@ -1,16 +1,16 @@
 const colors = [
-  "red",
-  "blue",
-  "green",
-  "yellow",
-  "black",
-  "white",
-  "orange",
-  "pink",
-  "gray",
-  "brown",
-  "purple",
-  "cyan",
+  "Red",
+  "Blue",
+  "Green",
+  "Yellow",
+  "Black",
+  "White",
+  "Orange",
+  "Pink",
+  "Gray",
+  "Brown",
+  "Purple",
+  "Cyan",
 ];
 
 export default colors;

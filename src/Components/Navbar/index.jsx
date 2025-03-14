@@ -4,27 +4,37 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const handleHome = () => {
+    navigate("/");
+  };
+  const handleContact = () => {
+    navigate("/contact");
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
-          {/* <IconButton
-            size="large"
-            edge="start"
+        <Toolbar sx={{ display: "flex", justifyContent: "left" }}>
+          <Button
             color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ ml: "10rem", fontSize: "1.2rem" }}
+            onClick={handleHome}
           >
-            <MenuIcon />
-          </IconButton> */}
-          <Typography variant="h6" component="div">
             Live Demo
-          </Typography>
-          {/* <Button color="inherit">Login</Button> */}
+          </Button>
+
+          <Box sx={{ ml: "auto", mr: "10rem" }}>
+            <Button color="inherit" sx={{}} onClick={handleHome}>
+              Home
+            </Button>
+            <Button color="inherit" sx={{}} onClick={handleContact}>
+              Contact
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
