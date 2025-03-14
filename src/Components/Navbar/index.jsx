@@ -19,20 +19,28 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar sx={{ display: "flex", justifyContent: "left" }}>
-          <Button
-            color="inherit"
-            sx={{ ml: "10rem", fontSize: "1.2rem" }}
-            onClick={handleHome}
+          <Box
+            sx={{
+              ml: { xs: 0, md: "10rem" },
+              fontSize: "1.2rem",
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+              gap: 0.2,
+            }}
           >
-            YOROKOBI
-          </Button>
-          <img
-            src="src/assets/images/yorokobi-rounded.png"
-            style={{ height: "30px", width: "30px", borderRadius: "50%", ml: "10rem" }}
-            alt=""
-          />
+            <Button color="inherit" onClick={handleHome}>
+              YOROKOBI
+            </Button>
+            <img
+              src="src/assets/images/yorokobi-rounded.png"
+              style={{ height: "30px", width: "30px", ml: "10rem" }}
+              alt=""
+            />
+          </Box>
 
-          <Box sx={{ ml: "auto", mr: "10rem" }}>
+          {/* <Box sx={{ ml: "auto", mr: "10rem" }}> */}
+          <Box sx={{ display: "flex", gap: 2, ml: "auto", mr: { xs: 0, md: "10rem" } }}>
             <Button color="inherit" sx={{}} onClick={handleHome}>
               Home
             </Button>

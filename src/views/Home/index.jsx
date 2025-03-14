@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "Components/Navbar";
-import B_Categories from "Components/B_Categories";
+import BCategories from "Components/BCategories";
 import Color from "Components/Color";
 import { Button, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -18,8 +18,8 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <Stack sx={{ display: "flex", flexDirection: "row" }}>
-        <B_Categories sx={{ display: "flex", flex: 1 }} />
+      <Stack sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}>
+        <BCategories sx={{ display: "flex", flex: 1 }} />
         <Color sx={{ display: "flex", flex: 1 }} />
 
         {/* Display selected values */}
