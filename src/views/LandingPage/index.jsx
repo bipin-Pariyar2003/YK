@@ -2,6 +2,7 @@ import { Button, Stack, Typography, Card, Box } from "@mui/material";
 import { motion } from "framer-motion";
 import Navbar from "Components/Navbar";
 import { useNavigate } from "react-router-dom";
+import yorokobiTransparent from "assets/images/yorokobi-transparent.png";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -21,6 +22,25 @@ const LandingPage = () => {
           height: "80svh",
           px: 2, // Padding for small screens
           position: "relative", // Enables absolute positioning inside
+          // backgroundImage: `url(${yorokobiTransparent})`,
+          // backgroundSize: "cover",
+          // backgroundPosition: "center",
+          // backgroundRepeat: "no-repeat",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -110%)", // Centers the image
+            width: "300px",
+            height: "300px",
+            backgroundImage: `url(${yorokobiTransparent})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            filter: "brightness(80%)", // Dim the image (adjust the %)
+            zIndex: -1, // Keep the background behind the content
+          },
         }}
       >
         {/* Animated Typography for Description */}
@@ -30,6 +50,9 @@ const LandingPage = () => {
           transition={{ duration: 1, delay: 0.5 }}
           style={{ textAlign: "center" }} // Center text & button
         >
+          <Typography variant="h3" sx={{ textAlign: "center", mb: 4, mt: 4 }}>
+            Welcome to the <br /> Yorokobi Enterprises Software Systems
+          </Typography>
           <Typography variant="h5" sx={{ textAlign: "center", mb: 2 }}>
             Here you can customize the poster of your business according to your choice,
             for various offers or schemes.

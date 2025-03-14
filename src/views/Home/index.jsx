@@ -29,11 +29,13 @@ const Home = () => {
         >
           {selectedCategory && (
             <Typography variant="h6">
-              Selected Business Category: {selectedCategory}
+              Selected Business Category: <b>{selectedCategory}</b>
             </Typography>
           )}
           {selectedColor && (
-            <Typography variant="h6">Selected Color: {selectedColor}</Typography>
+            <Typography variant="h6">
+              Selected Color: <b>{selectedColor}</b>
+            </Typography>
           )}
 
           {selectedCategory && selectedColor && (
