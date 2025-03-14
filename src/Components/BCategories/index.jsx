@@ -12,9 +12,10 @@ const B_Categories = () => {
 
   return (
     <>
-      <Stack sx={{ width: "500px", height: "550px", mt: 2 }}>
+      {/* <Stack sx={{ width: "500px", height: "550px", mt: 2 }}> */}
+      <Stack sx={{ mt: 2 }}>
         <Typography variant="h5" sx={{ textAlign: "center" }}>
-          Select your Business Category
+          Select Business Category
         </Typography>
 
         <Stack sx={{ overflowY: "auto", overflowX: "hidden" }}>

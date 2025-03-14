@@ -5,11 +5,13 @@ import Color from "Components/Color";
 import { Button, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Type from "Components/Type";
 
-const Home = () => {
+const GetStarted = () => {
   // Access state from Redux store
   const selectedCategory = useSelector((state) => state.category);
   const selectedColor = useSelector((state) => state.color);
+  const selectedType = useSelector((state) => state.type);
   const navigate = useNavigate();
 
   const handleEdit = () => {
@@ -18,9 +20,10 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <Stack sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}>
+      <Stack sx={{ display: "flex", flexDirection: { xs: "column", md: "row", gap: 5 } }}>
         <BCategories sx={{ display: "flex", flex: 1 }} />
         <Color sx={{ display: "flex", flex: 1 }} />
+        <Type sx={{ display: "flex", flex: 1 }} />
 
         {/* Display selected values */}
 
@@ -37,8 +40,13 @@ const Home = () => {
               Selected Color: <b>{selectedColor}</b>
             </Typography>
           )}
+          {selectedType && (
+            <Typography variant="h6">
+              Selected Orientation: <b>{selectedType}</b>
+            </Typography>
+          )}
 
-          {selectedCategory && selectedColor && (
+          {selectedCategory && selectedColor && selectedType && (
             <Button
               sx={{ mt: 2, width: "max-content", textAlign: "center" }}
               onClick={handleEdit}
@@ -52,4 +60,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default GetStarted;
