@@ -31,12 +31,12 @@ const LandingPage = () => {
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -110%)", // Centers the image
-            width: "300px",
-            height: "300px",
+            transform: { xs: "translate(-50%, -250%)", md: "translate(-50%, -115%)" }, // Centers the image
+            width: { xs: "100px", md: "300px" },
+            height: { xs: "100px", md: "300px" },
             backgroundImage: `url(${yorokobiTransparent})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+
             backgroundRepeat: "no-repeat",
             filter: "brightness(80%)", // Dim the image (adjust the %)
             zIndex: -1, // Keep the background behind the content
@@ -50,10 +50,21 @@ const LandingPage = () => {
           transition={{ duration: 1, delay: 0.5 }}
           style={{ textAlign: "center" }} // Center text & button
         >
-          <Typography variant="h3" sx={{ textAlign: "center", mb: 4, mt: 4 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              textAlign: "center",
+              mb: 4,
+              mt: 4,
+              fontSize: { xs: "1.5rem", md: "2rem" },
+            }}
+          >
             Welcome to the <br /> Yorokobi Enterprises Software Systems
           </Typography>
-          <Typography variant="h5" sx={{ textAlign: "center", mb: 2 }}>
+          <Typography
+            variant="h5"
+            sx={{ textAlign: "center", mb: 2, fontSize: { xs: "1.2rem", md: "1.5rem" } }}
+          >
             Here you can customize the poster of your business according to your choice,
             for various offers or schemes.
           </Typography>

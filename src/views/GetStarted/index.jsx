@@ -21,59 +21,73 @@ const GetStarted = () => {
 
   return (
     <>
-      <Navbar />
-      <Stack
-        sx={{
-          display: "flex",
-          flex: 1,
-          flexDirection: { xs: "column", md: "row" },
-          gap: 3,
-          height: "100svh",
-          px: 2,
-        }}
-      >
+      <Stack sx={{ height: "100svh", overflow: { xs: "auto", md: "hidden" } }}>
+        <Navbar />
         <Stack
           sx={{
             display: "flex",
-            flex: 2,
+            flex: 1,
             flexDirection: { xs: "column", md: "row" },
-            justifyContent: "space-between",
+            gap: 3,
+            px: 2,
           }}
         >
-          <BCategories sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
-          <Color sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
-          <Type sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
-        </Stack>
+          <Stack
+            sx={{
+              display: "flex",
+              flex: 2,
+              flexDirection: { xs: "column", md: "row" },
+              justifyContent: "space-between",
+              height: "100svh",
+            }}
+          >
+            <BCategories
+              sx={{
+                display: "flex",
+                flex: 1,
+                border: "1px solid black",
+              }}
+            />
+            <Color sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
+            <Type sx={{ display: "flex", flex: 1, border: "1px solid black" }} />
+          </Stack>
 
-        {/* Display selected values */}
+          {/* Display selected values */}
 
-        <Stack
-          sx={{ display: "flex", flex: 1, textAlign: "left", justifyContent: "center" }}
-        >
-          {selectedCategory && (
-            <Typography variant="h6">
-              Selected Business Category: <b>{selectedCategory}</b>
-            </Typography>
-          )}
-          {selectedColor && (
-            <Typography variant="h6">
-              Selected Color: <b>{selectedColor}</b>
-            </Typography>
-          )}
-          {selectedType && (
-            <Typography variant="h6">
-              Selected Orientation: <b>{selectedType}</b>
-            </Typography>
-          )}
+          <Stack
+            sx={{
+              display: "flex",
+              flex: 1,
+              textAlign: "left",
+              justifyContent: "center",
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            {selectedCategory && (
+              <Typography variant="h6">
+                Selected Business Category: <b>{selectedCategory}</b>
+              </Typography>
+            )}
+            {selectedColor && (
+              <Typography variant="h6">
+                Selected Color: <b>{selectedColor}</b>
+              </Typography>
+            )}
+            {selectedType && (
+              <Typography variant="h6">
+                Selected Orientation: <b>{selectedType}</b>
+              </Typography>
+            )}
 
-          {selectedCategory && selectedColor && selectedType && (
-            <Button
-              sx={{ mt: 2, width: "max-content", textAlign: "center" }}
-              onClick={handleEdit}
-            >
-              Start Edit
-            </Button>
-          )}
+            {selectedCategory && selectedColor && selectedType && (
+              <Button
+                sx={{ mt: 2, width: "max-content", textAlign: "center" }}
+                onClick={handleEdit}
+              >
+                Start Edit
+              </Button>
+            )}
+          </Stack>
         </Stack>
       </Stack>
     </>

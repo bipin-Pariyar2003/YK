@@ -1,8 +1,9 @@
 import React from "react";
 import Navbar from "Components/Navbar";
 import { useSelector } from "react-redux";
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import imgArray from "assets/images/imgArray";
+import { Height } from "@mui/icons-material";
 
 const EditPage = () => {
   const selectedCategory = useSelector((state) => state.category);
@@ -15,7 +16,7 @@ const EditPage = () => {
   return (
     <>
       <Navbar />
-      <Stack sx={{ display: "flex" }}>
+      <Stack sx={{ display: "flex", px: 2 }}>
         <Stack sx={{ textAlign: "center", mt: 2 }}>
           <Typography variant="h4">Select Template</Typography>
         </Stack>
@@ -28,14 +29,33 @@ const EditPage = () => {
         <Typography>
           Selected Orientation: <b>{selectedType} </b>
         </Typography>
-
-        {selectedImages.length > 0 ? (
-          selectedImages.map((image) => (
-            <img key={image.id} src={image.src} alt={image.alt} width={"250px"} />
-          ))
-        ) : (
-          <p>No images available for the selected category and color.</p>
-        )}
+        <Stack
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            flexWrap: "wrap",
+            alignItems: "center",
+            mt: 2,
+            gap: 2,
+          }}
+        >
+          {selectedImages.length > 0 ? (
+            selectedImages.map((image) => (
+              <Box
+                component="img"
+                key={image.id}
+                src={image.src}
+                alt={image.alt}
+                sx={{
+                  height: { xs: "auto", md: "350px" },
+                  width: { xs: "200px", md: "auto" },
+                }}
+              />
+            ))
+          ) : (
+            <p>No images available for the selected category and color.</p>
+          )}
+        </Stack>
       </Stack>
     </>
   );
