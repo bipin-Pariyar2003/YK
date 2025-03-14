@@ -24,8 +24,13 @@ export default function Navbar() {
             sx={{ ml: "10rem", fontSize: "1.2rem" }}
             onClick={handleHome}
           >
-            Live Demo
+            YOROKOBI
           </Button>
+          <img
+            src="src/assets/images/yorokobi-rounded.png"
+            style={{ height: "30px", width: "30px", borderRadius: "50%", ml: "10rem" }}
+            alt=""
+          />
 
           <Box sx={{ ml: "auto", mr: "10rem" }}>
             <Button color="inherit" sx={{}} onClick={handleHome}>
