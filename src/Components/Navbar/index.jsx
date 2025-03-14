@@ -11,8 +11,8 @@ export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
-          <IconButton
+        <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -20,8 +20,8 @@ export default function Navbar() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          </IconButton> */}
+          <Typography variant="h6" component="div">
             Live Demo
           </Typography>
           {/* <Button color="inherit">Login</Button> */}

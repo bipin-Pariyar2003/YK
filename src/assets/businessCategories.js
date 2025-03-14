@@ -27,5 +27,3 @@ const businessCategories = [
 ];
 
 export default businessCategories;
-
-console.log(businessCategories);
