@@ -16,9 +16,9 @@ const EditPage = () => {
   return (
     <>
       <Navbar />
-      <Stack sx={{ display: "flex", px: 2 }}>
+      <Stack sx={{ display: "flex", px: 2, pb: 5 }}>
         <Stack sx={{ textAlign: "center", mt: 2 }}>
-          <Typography variant="h4">Select Template</Typography>
+          <Typography variant="h4">Select A Template</Typography>
         </Stack>
         <Typography>
           Selected Business Category: <b>{selectedCategory}</b>
@@ -36,6 +36,7 @@ const EditPage = () => {
             flexWrap: "wrap",
             alignItems: "center",
             mt: 2,
+
             gap: 2,
           }}
         >
@@ -47,8 +48,18 @@ const EditPage = () => {
                 src={image.src}
                 alt={image.alt}
                 sx={{
-                  height: { xs: "auto", md: "350px" },
-                  width: { xs: "200px", md: "auto" },
+                  // height: { xs: "auto", md: "350px" },
+                  // width: { xs: "200px", md: "auto" },
+                  // width: selectedType === "landscape" ? "841px" : "594px",
+                  // height: selectedType === "landscape" ? "594px" : "841px",
+                  width: selectedType === "landscape" ? "70vw" : "50vw", // 70% or 50% of viewport width
+                  height: "auto",
+                  maxWidth: selectedType === "landscape" ? "700px" : "500px", // Scaled down from 841x594
+                  maxHeight: selectedType === "landscape" ? "500px" : "700px",
+                  aspectRatio: selectedType === "landscape" ? "1.414" : "0.707",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                  boxShadow: "0 0 10px rgba(0,0,0,0.2)",
                 }}
               />
             ))
