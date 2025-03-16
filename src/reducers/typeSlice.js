@@ -1,16 +1,40 @@
+// import { createSlice } from "@reduxjs/toolkit";
+
+// const initialState = null;
+
+// const typeSlice = createSlice({
+//   name: "type",
+//   initialState,
+//   reducers: {
+//     setSelectedType: (state, action) => {
+//       return action.payload;
+//     },
+//   },
+// });
+
+// export const { setSelectedType } = typeSlice.actions;
+// export default typeSlice.reducer;
+
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = null;
+const savedType = localStorage.getItem("selectedType");
+const initialState = savedType ? JSON.parse(savedType) : null;
 
 const typeSlice = createSlice({
   name: "type",
   initialState,
   reducers: {
     setSelectedType: (state, action) => {
-      return action.payload;
+      const newType = action.payload;
+      localStorage.setItem("selectedType", JSON.stringify(newType));
+      return newType;
+    },
+    clearSelectedType: (state) => {
+      localStorage.removeItem("selectedType");
+      return null;
     },
   },
 });
 
-export const { setSelectedType } = typeSlice.actions;
+export const { setSelectedType, clearSelectedType } = typeSlice.actions;
 export default typeSlice.reducer;

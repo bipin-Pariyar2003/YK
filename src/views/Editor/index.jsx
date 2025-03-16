@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import * as fabric from "fabric";
 import { Box, Button, Stack } from "@mui/material";
 import Navbar from "Components/Navbar";
+import { useSelector } from "react-redux";
 
 const Editor = () => {
-  const location = useLocation();
   const canvasRef = useRef(null);
-  const image = location.state?.image; // Get selected image from state
+  const selectedImage = useSelector((state) => state.image.selectedImage); // Get selected image from state
+  console.log("Selected Image: ", selectedImage?.src);
 
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -16,18 +16,28 @@ const Editor = () => {
       backgroundColor: "#f0f0f0",
     });
 
-    if (image) {
-      fabric.Image.fromURL(image.src, (img) => {
-        img.scaleToWidth(500);
-        canvas.add(img);
-      });
+    if (selectedImage && selectedImage.src) {
+      console.log("Src: ", selectedImage.src);
+
+      // Using fabric.Image.fromURL in a slightly different pattern to avoid deprecated method warnings
+      fabric.Image.fromURL(
+        selectedImage.src,
+        (img) => {
+          img.set({ left: 0, top: 0 }).scaleToWidth(500);
+          canvas.clear(); // Clear canvas before adding new image
+          canvas.add(img);
+        },
+        { crossOrigin: "anonymous" }
+      ); // Use this option for cross-origin images if needed
+    } else {
+      console.log("No image selected");
     }
 
     canvasRef.current = canvas;
     return () => {
       canvas.dispose();
     };
-  }, [image]);
+  }, [selectedImage]);
 
   const addText = () => {
     const text = new fabric.IText("Edit me!", {
