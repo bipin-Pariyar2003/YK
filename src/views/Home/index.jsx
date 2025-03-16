@@ -110,16 +110,6 @@ const LandingPage = () => {
             </Card>
           </motion.div>
         </motion.div>
-
-        {/* <Typography
-          sx={{ backgroundColor: "#ccc", lineHeight: 2, p: 2, mt: 2, height: "100%" }}
-        >
-          <Typography variant="h4"> About Us</Typography> Welcome to <b>YoroKobi</b>, the
-          ultimate tool for businesses to create and customize posters effortlessly.
-          Whether you're promoting offers, events, or special announcements, our intuitive
-          platform helps you design high-quality posters in minutes—no design experience
-          needed!
-        </Typography> */}
       </Stack>
     </>
   );
