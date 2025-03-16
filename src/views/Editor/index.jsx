@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import * as fabric from "fabric";
-import { FabricImage } from "fabric";
 import { Box, Button, Stack } from "@mui/material";
 import Navbar from "Components/Navbar";
 import { useSelector } from "react-redux";
@@ -11,29 +10,40 @@ const Editor = () => {
   console.log("Selected Image: ", selectedImage?.src);
 
   useEffect(() => {
+    // Ensure that the canvas is created only once
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: 800,
       height: 500,
       backgroundColor: "#f0f0f0",
     });
 
+    // Check if there is a selected image
     if (selectedImage && selectedImage.src) {
+      console.log("Selected Image:", selectedImage);
       console.log("Src: ", selectedImage.src);
 
-      FabricImage.fromURL(
+      // Add image to the canvas
+      fabric.Image.fromURL(
         selectedImage.src,
         (img) => {
+          console.log("Image loaded:", img);
           img.set({ left: 0, top: 0 }).scaleToWidth(500);
           canvas.clear(); // Clear canvas before adding new image
           canvas.add(img);
+          canvas.renderAll(); // Ensure the canvas is rendered after adding the image
         },
         { crossOrigin: "anonymous" }
-      ); // Use this option for cross-origin images if needed
+      ).catch((error) => {
+        console.error("Error loading image:", error);
+      });
     } else {
       console.log("No image selected");
     }
 
+    // Store the canvas instance in the ref
     canvasRef.current = canvas;
+
+    // Cleanup function to dispose of the canvas on unmount
     return () => {
       canvas.dispose();
     };

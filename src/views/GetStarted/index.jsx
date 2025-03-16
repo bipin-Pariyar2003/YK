@@ -106,7 +106,7 @@ const GetStarted = () => {
 
       {/* MUI Dialog */}
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Poster Size Information</DialogTitle>
+        <DialogTitle>Poster Size Information ⚠️ </DialogTitle>
         <DialogContent>
           <Typography variant="body1">
             The poster size is A1 only. <br />
