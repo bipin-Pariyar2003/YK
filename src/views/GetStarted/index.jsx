@@ -29,7 +29,7 @@ const GetStarted = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate("/edit");
+    navigate("/view-images");
   };
 
   return (

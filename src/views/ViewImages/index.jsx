@@ -5,7 +5,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import imgArray from "assets/images/imgArray";
 import { Height } from "@mui/icons-material";
 
-const EditPage = () => {
+const ViewImages = () => {
   const selectedCategory = useSelector((state) => state.category);
   const selectedColor = useSelector((state) => state.color);
   const selectedType = useSelector((state) => state.type);
@@ -72,4 +72,4 @@ const EditPage = () => {
   );
 };
 
-export default EditPage;
+export default ViewImages;
