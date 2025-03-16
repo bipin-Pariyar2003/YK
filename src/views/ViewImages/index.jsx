@@ -1,17 +1,25 @@
 import React from "react";
 import Navbar from "Components/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Stack, Typography } from "@mui/material";
 import imgArray from "assets/images/imgArray";
-import { Height } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { setImage } from "reducers/imageSlice";
 
 const ViewImages = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const selectedCategory = useSelector((state) => state.category);
   const selectedColor = useSelector((state) => state.color);
   const selectedType = useSelector((state) => state.type);
-
   // Access the selected images based on category and color
   const selectedImages = imgArray[selectedCategory]?.[selectedColor] || [];
+
+  const handleImageClick = (image) => {
+    dispatch(setImage(image)); // Store in Redux
+    navigate("/editor");
+  };
 
   return (
     <>
@@ -44,6 +52,7 @@ const ViewImages = () => {
             selectedImages.map((image) => (
               <Box
                 component="img"
+                onClick={() => handleImageClick(image)} // Navigate on click
                 key={image.id}
                 src={image.src}
                 alt={image.alt}
@@ -60,6 +69,12 @@ const ViewImages = () => {
                   objectFit: "cover",
                   borderRadius: "8px",
                   boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+                  cursor: "pointer", // Make it clickable
+                  transition: "transform 0.2s",
+                  "&:hover": {
+                    transform: "scale(1.01)",
+                    boxShadow: "0 0 20px rgba(0,0,0,0.8)",
+                  },
                 }}
               />
             ))

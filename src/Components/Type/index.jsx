@@ -11,7 +11,6 @@ const Type = () => {
     dispatch(setSelectedType(type));
   };
 
-  console.log(types);
   return (
     <>
       {/* <Stack sx={{ width: "500px", height: "550px", mt: 2 }}> */}

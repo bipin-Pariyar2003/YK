@@ -1,10 +1,11 @@
 import "./App.css";
 import GetStarted from "views/GetStarted";
 import Home from "views/Home";
-
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Contact from "views/Contact";
 import ViewImages from "views/ViewImages";
+import Editor from "views/Editor";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/getStarted" element={<GetStarted />} />
           <Route path="/view-images" element={<ViewImages />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/editor" element={<Editor />} />
         </Routes>
       </BrowserRouter>
     </>
