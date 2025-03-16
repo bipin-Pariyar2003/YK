@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const savedType = localStorage.getItem("selectedType");
+const savedType = sessionStorage.getItem("selectedType");
 const initialState = savedType ? JSON.parse(savedType) : null;
 
 const typeSlice = createSlice({
@@ -9,11 +9,11 @@ const typeSlice = createSlice({
   reducers: {
     setSelectedType: (state, action) => {
       const newType = action.payload;
-      localStorage.setItem("selectedType", JSON.stringify(newType));
+      sessionStorage.setItem("selectedType", JSON.stringify(newType));
       return newType;
     },
     clearSelectedType: (state) => {
-      localStorage.removeItem("selectedType");
+      sessionStorage.removeItem("selectedType");
       return null;
     },
   },

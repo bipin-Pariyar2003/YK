@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as fabric from "fabric";
+import { FabricImage } from "fabric";
 import { Box, Button, Stack } from "@mui/material";
 import Navbar from "Components/Navbar";
 import { useSelector } from "react-redux";
@@ -19,8 +20,7 @@ const Editor = () => {
     if (selectedImage && selectedImage.src) {
       console.log("Src: ", selectedImage.src);
 
-      // Using fabric.Image.fromURL in a slightly different pattern to avoid deprecated method warnings
-      fabric.Image.fromURL(
+      FabricImage.fromURL(
         selectedImage.src,
         (img) => {
           img.set({ left: 0, top: 0 }).scaleToWidth(500);

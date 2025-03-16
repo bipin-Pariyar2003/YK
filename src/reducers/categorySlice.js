@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// Load the selected category from localStorage, if it exists
-const savedCategory = localStorage.getItem("selectedCategory");
+// Load the selected category from sessionStorage, if it exists
+const savedCategory = sessionStorage.getItem("selectedCategory");
 const initialState = savedCategory ? JSON.parse(savedCategory) : null;
 
 const categorySlice = createSlice({
@@ -10,13 +10,13 @@ const categorySlice = createSlice({
   reducers: {
     setSelectedCategory: (state, action) => {
       const newCategory = action.payload;
-      // Save the selected category to both Redux and localStorage
-      localStorage.setItem("selectedCategory", JSON.stringify(newCategory));
+      // Save the selected category to both Redux and sessionStorage
+      sessionStorage.setItem("selectedCategory", JSON.stringify(newCategory));
       return newCategory;
     },
     clearSelectedCategory: (state) => {
-      // Clear the selected category from Redux and localStorage
-      localStorage.removeItem("selectedCategory");
+      // Clear the selected category from Redux and sessionStorage
+      sessionStorage.removeItem("selectedCategory");
       return null;
     },
   },

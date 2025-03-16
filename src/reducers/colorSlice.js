@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-const savedColor = localStorage.getItem("selectedColor");
+const savedColor = sessionStorage.getItem("selectedColor");
 const initialState = savedColor ? JSON.parse(savedColor) : null;
 
 const colorSlice = createSlice({
@@ -8,12 +8,12 @@ const colorSlice = createSlice({
   reducers: {
     setSelectedColor: (state, action) => {
       const newColor = action.payload;
-      localStorage.setItem("selectedColor", JSON.stringify(newColor));
+      sessionStorage.setItem("selectedColor", JSON.stringify(newColor));
       return newColor;
     },
 
     clearSelectedColor: (state) => {
-      localStorage.removeItem("selectedColor");
+      sessionStorage.removeItem("selectedColor");
       return null;
     },
   },
