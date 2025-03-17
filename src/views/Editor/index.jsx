@@ -157,7 +157,7 @@ const Editor = () => {
               justifyContent: "center",
               // alignItems: "center",
               alignItems: { xs: "flex-start", md: "center" },
-              mt: { xs: 10, md: 0 },
+              mt: { xs: 5, md: 0 },
               backgroundColor: "#ffffff",
             }}
           >
