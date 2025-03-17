@@ -28,7 +28,7 @@ const Editor = () => {
         // Get aspect ratio and calculate dimensions based on selected type
         const aspectRatio = getAspectRatio();
         const canvasWidth =
-          window.innerWidth * (selectedType === "landscape" ? 0.5 : 0.4); // Use 70% width for landscape and 50% for portrait
+          window.innerWidth * (selectedType === "landscape" ? 0.5 : 0.3); // Use 70% width for landscape and 50% for portrait
         const canvasHeight = canvasWidth / aspectRatio; // Set height based on aspect ratio
 
         setImage(img);
@@ -116,7 +116,13 @@ const Editor = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ display: "flex", height: "100svh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          height: "100svh",
+          flexDirection: { xs: "column", md: "row" },
+        }}
+      >
         {/* Left Panel: Buttons Section */}
         <Box
           sx={{
@@ -140,7 +146,7 @@ const Editor = () => {
         {/* Right Panel: Canvas Section */}
         <Box
           sx={{
-            flex: 3,
+            flex: { xs: 4, md: 3 },
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
