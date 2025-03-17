@@ -1,43 +1,44 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image, Text } from "react-konva";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Navbar from "Components/Navbar";
 import { useSelector } from "react-redux";
 
 const Editor = () => {
-  const stageRef = useRef(null); // Reference for stage
+  const stageRef = useRef(null); // Reference for the stage
   const selectedImage = useSelector((state) => state.image.selectedImage); // Get selected image from Redux state
+  const selectedType = useSelector((state) => state.type); // Get selected orientation type
   const [image, setImage] = useState(null);
   const [imageProps, setImageProps] = useState({ width: 0, height: 0 });
   const [texts, setTexts] = useState([]);
   const [isEditing, setIsEditing] = useState(null); // Track which text is being edited
+
+  const getAspectRatio = () => {
+    // Adjust aspect ratio based on selected type
+    return selectedType === "landscape" ? 1.414 : 0.707;
+  };
 
   useEffect(() => {
     if (selectedImage && selectedImage.src) {
       const img = new window.Image();
       img.src = selectedImage.src;
       img.crossOrigin = "anonymous"; // Prevent CORS issues
-      img.onload = () => {
-        const aspectRatio = img.width / img.height;
-        const canvasWidth = 800; // You can adjust this based on your desired canvas size
-        const canvasHeight = 500; // You can adjust this based on your desired canvas size
-        const newWidth = canvasWidth;
-        const newHeight = canvasWidth / aspectRatio;
 
-        // If the height exceeds canvas size, adjust it based on the height
-        if (newHeight > canvasHeight) {
-          const newHeight = canvasHeight;
-          const newWidth = canvasHeight * aspectRatio;
-        }
+      img.onload = () => {
+        // Get aspect ratio and calculate dimensions based on selected type
+        const aspectRatio = getAspectRatio();
+        const canvasWidth =
+          window.innerWidth * (selectedType === "landscape" ? 0.5 : 0.4); // Use 70% width for landscape and 50% for portrait
+        const canvasHeight = canvasWidth / aspectRatio; // Set height based on aspect ratio
 
         setImage(img);
         setImageProps({
-          width: newWidth,
-          height: newHeight,
+          width: canvasWidth,
+          height: canvasHeight,
         });
       };
     }
-  }, [selectedImage]);
+  }, [selectedImage, selectedType]); // Recalculate when selectedImage or selectedType changes
 
   // Add new text with draggable, editable, and scalable properties
   const addText = () => {
@@ -123,7 +124,6 @@ const Editor = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            // width: "300px", // You can adjust the width of the button container
             flex: 1,
             backgroundColor: "#f0f0f0",
             padding: 2,
@@ -149,8 +149,8 @@ const Editor = () => {
         >
           <Stage
             ref={stageRef}
-            width={800}
-            height={500}
+            width={imageProps.width}
+            height={imageProps.height}
             style={{ border: "1px solid black" }}
           >
             <Layer>
