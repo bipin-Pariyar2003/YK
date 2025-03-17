@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image, Text } from "react-konva";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import Navbar from "Components/Navbar";
 import { useSelector } from "react-redux";
 
@@ -27,8 +27,13 @@ const Editor = () => {
       img.onload = () => {
         // Get aspect ratio and calculate dimensions based on selected type
         const aspectRatio = getAspectRatio();
-        const canvasWidth =
-          window.innerWidth * (selectedType === "landscape" ? 0.5 : 0.3); // Use 70% width for landscape and 50% for portrait
+
+        // For mobile devices, adjust the width accordingly
+        const isMobile = window.innerWidth <= 768; // You can adjust this breakpoint
+        const canvasWidth = isMobile
+          ? window.innerWidth * 0.8 // 60% width for mobile
+          : window.innerWidth * (selectedType === "landscape" ? 0.5 : 0.3); // Default behavior for larger screens
+
         const canvasHeight = canvasWidth / aspectRatio; // Set height based on aspect ratio
 
         setImage(img);
@@ -115,95 +120,99 @@ const Editor = () => {
 
   return (
     <>
-      <Navbar />
-      <Box
-        sx={{
-          display: "flex",
-          height: "100svh",
-          flexDirection: { xs: "column", md: "row" },
-        }}
-      >
-        {/* Left Panel: Buttons Section */}
+      <Stack sx={{ height: "100svh" }}>
+        <Navbar />
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-            backgroundColor: "#f0f0f0",
-            padding: 2,
+            flexDirection: { xs: "column", md: "row" },
+            height: "100svh",
           }}
         >
-          <Button variant="contained" onClick={addText} sx={{ marginBottom: 2 }}>
-            Add Text
-          </Button>
-          <Button variant="contained" onClick={saveAsImage} color="success">
-            Download Image
-          </Button>
-        </Box>
-
-        {/* Right Panel: Canvas Section */}
-        <Box
-          sx={{
-            flex: { xs: 4, md: 3 },
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#ffffff",
-          }}
-        >
-          <Stage
-            ref={stageRef}
-            width={imageProps.width}
-            height={imageProps.height}
-            style={{ border: "1px solid black" }}
+          {/* Left Panel: Buttons Section */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+              backgroundColor: "#f0f0f0",
+              padding: 2,
+            }}
           >
-            <Layer>
-              {image && (
-                <Image
-                  image={image}
-                  x={0}
-                  y={0}
-                  width={imageProps.width}
-                  height={imageProps.height}
-                />
-              )}
-              {texts.map((text) => (
-                <Text
-                  key={text.id}
-                  {...text}
-                  onDragMove={(e) => handleDragMove(e, text.id)} // Update text position on drag
-                  onTransform={(e) => handleScale(e, text.id)} // Update text scaling
-                  onTransformEnd={(e) => handleRotation(e, text.id)} // Update text rotation
-                  onClick={() => handleTextClick(text.id)} // Start editing on click
-                  fontSize={text.fontSize}
-                />
-              ))}
-            </Layer>
-          </Stage>
+            <Button variant="contained" onClick={addText} sx={{ marginBottom: 2 }}>
+              Add Text
+            </Button>
+            <Button variant="contained" onClick={saveAsImage} color="success">
+              Download Image
+            </Button>
+          </Box>
 
-          {/* Editable Text Input Overlay */}
-          {isEditing && (
-            <input
-              type="text"
-              value={texts.find((text) => text.id === isEditing).text}
-              onChange={(e) => handleTextChange(e, isEditing)}
-              onBlur={handleTextBlur}
-              style={{
-                position: "absolute",
-                top: texts.find((text) => text.id === isEditing).y,
-                left: texts.find((text) => text.id === isEditing).x,
-                fontSize: `${texts.find((text) => text.id === isEditing).fontSize}px`,
-                transform: `rotate(${
-                  texts.find((text) => text.id === isEditing).rotation
-                }deg)`,
-                border: "1px solid black", // Optional styling for the input field
-              }}
-            />
-          )}
+          {/* Right Panel: Canvas Section */}
+          <Box
+            sx={{
+              flex: { xs: 4, md: 3 },
+              display: "flex",
+              justifyContent: "center",
+              // alignItems: "center",
+              alignItems: { xs: "flex-start", md: "center" },
+              mt: { xs: 10, md: 0 },
+              backgroundColor: "#ffffff",
+            }}
+          >
+            <Stage
+              ref={stageRef}
+              width={imageProps.width}
+              height={imageProps.height}
+              style={{ border: "1px solid black" }}
+            >
+              <Layer>
+                {image && (
+                  <Image
+                    image={image}
+                    x={0}
+                    y={0}
+                    width={imageProps.width}
+                    height={imageProps.height}
+                  />
+                )}
+                {texts.map((text) => (
+                  <Text
+                    key={text.id}
+                    {...text}
+                    onDragMove={(e) => handleDragMove(e, text.id)} // Update text position on drag
+                    onTransform={(e) => handleScale(e, text.id)} // Update text scaling
+                    onTransformEnd={(e) => handleRotation(e, text.id)} // Update text rotation
+                    onClick={() => handleTextClick(text.id)} // Start editing on click
+                    fontSize={text.fontSize}
+                  />
+                ))}
+              </Layer>
+            </Stage>
+
+            {/* Editable Text Input Overlay */}
+            {isEditing && (
+              <input
+                type="text"
+                value={texts.find((text) => text.id === isEditing).text}
+                onChange={(e) => handleTextChange(e, isEditing)}
+                onBlur={handleTextBlur}
+                style={{
+                  position: "absolute",
+                  top: texts.find((text) => text.id === isEditing).y,
+                  left: texts.find((text) => text.id === isEditing).x,
+                  fontSize: `${texts.find((text) => text.id === isEditing).fontSize}px`,
+                  transform: `rotate(${
+                    texts.find((text) => text.id === isEditing).rotation
+                  }deg)`,
+                  border: "1px solid black", // Optional styling for the input field
+                }}
+              />
+            )}
+          </Box>
         </Box>
-      </Box>
+      </Stack>
     </>
   );
 };
