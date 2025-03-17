@@ -15,11 +15,11 @@
     "@mui/icons-material": "^6.4.7",
     "@mui/material": "^6.4.7",
     "@reduxjs/toolkit": "^2.6.1",
-    "fabric": "^6.6.1",
-    "fabric-pure-browser": "^5.1.0",
     "framer-motion": "^12.5.0",
+    "konva": "^9.3.19",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-konva": "^19.0.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.3.0",
     "redux": "^5.0.1"

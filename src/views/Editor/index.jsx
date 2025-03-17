@@ -1,68 +1,113 @@
-import React, { useEffect, useRef } from "react";
-import * as fabric from "fabric";
+import React, { useEffect, useRef, useState } from "react";
+import { Stage, Layer, Image, Text } from "react-konva";
 import { Box, Button, Stack } from "@mui/material";
 import Navbar from "Components/Navbar";
 import { useSelector } from "react-redux";
 
 const Editor = () => {
-  const canvasRef = useRef(null);
-  const selectedImage = useSelector((state) => state.image.selectedImage); // Get selected image from state
-  console.log("Selected Image: ", selectedImage?.src);
+  const stageRef = useRef(null); // Reference for stage
+  const selectedImage = useSelector((state) => state.image.selectedImage); // Get selected image from Redux state
+  const [image, setImage] = useState(null);
+  const [imageProps, setImageProps] = useState({ width: 0, height: 0 });
+  const [texts, setTexts] = useState([]);
+  const [isEditing, setIsEditing] = useState(null); // Track which text is being edited
 
   useEffect(() => {
-    // Ensure that the canvas is created only once
-    const canvas = new fabric.Canvas(canvasRef.current, {
-      width: 800,
-      height: 500,
-      backgroundColor: "#f0f0f0",
-    });
-
-    // Check if there is a selected image
     if (selectedImage && selectedImage.src) {
-      console.log("Selected Image:", selectedImage);
-      console.log("Src: ", selectedImage.src);
+      const img = new window.Image();
+      img.src = selectedImage.src;
+      img.crossOrigin = "anonymous"; // Prevent CORS issues
+      img.onload = () => {
+        const aspectRatio = img.width / img.height;
+        const canvasWidth = 800; // You can adjust this based on your desired canvas size
+        const canvasHeight = 500; // You can adjust this based on your desired canvas size
+        const newWidth = canvasWidth;
+        const newHeight = canvasWidth / aspectRatio;
 
-      // Add image to the canvas
-      fabric.Image.fromURL(
-        selectedImage.src,
-        (img) => {
-          console.log("Image loaded:", img);
-          img.set({ left: 0, top: 0 }).scaleToWidth(500);
-          canvas.clear(); // Clear canvas before adding new image
-          canvas.add(img);
-          canvas.renderAll(); // Ensure the canvas is rendered after adding the image
-        },
-        { crossOrigin: "anonymous" }
-      ).catch((error) => {
-        console.error("Error loading image:", error);
-      });
-    } else {
-      console.log("No image selected");
+        // If the height exceeds canvas size, adjust it based on the height
+        if (newHeight > canvasHeight) {
+          const newHeight = canvasHeight;
+          const newWidth = canvasHeight * aspectRatio;
+        }
+
+        setImage(img);
+        setImageProps({
+          width: newWidth,
+          height: newHeight,
+        });
+      };
     }
-
-    // Store the canvas instance in the ref
-    canvasRef.current = canvas;
-
-    // Cleanup function to dispose of the canvas on unmount
-    return () => {
-      canvas.dispose();
-    };
   }, [selectedImage]);
 
+  // Add new text with draggable, editable, and scalable properties
   const addText = () => {
-    const text = new fabric.IText("Edit me!", {
-      left: 100,
-      top: 100,
-      fontSize: 24,
-      fill: "black",
-    });
-    canvasRef.current.add(text);
+    setTexts([
+      ...texts,
+      {
+        id: (texts.length + 1).toString(),
+        text: "Edit me!",
+        x: 100,
+        y: 100,
+        fontSize: 24,
+        draggable: true,
+        rotation: 0,
+        scaleX: 1,
+        scaleY: 1,
+      },
+    ]);
   };
 
+  // Handle text position update during drag
+  const handleDragMove = (e, id) => {
+    const updatedTexts = texts.map((text) =>
+      text.id === id ? { ...text, x: e.target.x(), y: e.target.y() } : text
+    );
+    setTexts(updatedTexts);
+  };
+
+  // Handle text scaling (when user changes scale)
+  const handleScale = (e, id) => {
+    const scale = e.target.scaleX();
+    const updatedTexts = texts.map((text) =>
+      text.id === id
+        ? { ...text, scaleX: scale, scaleY: scale } // Update scale
+        : text
+    );
+    setTexts(updatedTexts);
+  };
+
+  // Handle text rotation (when user rotates)
+  const handleRotation = (e, id) => {
+    const rotation = e.target.rotation();
+    const updatedTexts = texts.map((text) =>
+      text.id === id ? { ...text, rotation } : text
+    );
+    setTexts(updatedTexts);
+  };
+
+  // Start editing the text
+  const handleTextClick = (id) => {
+    setIsEditing(id); // Start editing this text
+  };
+
+  // Handle text change during editing
+  const handleTextChange = (e, id) => {
+    const updatedTexts = texts.map((text) =>
+      text.id === id ? { ...text, text: e.target.value } : text
+    );
+    setTexts(updatedTexts);
+  };
+
+  // Save edited text and stop editing
+  const handleTextBlur = () => {
+    setIsEditing(null); // Stop editing when the user clicks out
+  };
+
+  // Download the canvas as an image
   const saveAsImage = () => {
-    const dataURL = canvasRef.current.toDataURL({ format: "png" });
+    const uri = stageRef.current.toDataURL();
     const link = document.createElement("a");
-    link.href = dataURL;
+    link.href = uri;
     link.download = "edited-image.png";
     link.click();
   };
@@ -70,16 +115,88 @@ const Editor = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ textAlign: "center", p: 2 }}>
-        <Stack direction="row" spacing={2} justifyContent="center" mb={2}>
-          <Button variant="contained" onClick={addText}>
+      <Box sx={{ display: "flex", height: "100svh" }}>
+        {/* Left Panel: Buttons Section */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            // width: "300px", // You can adjust the width of the button container
+            flex: 1,
+            backgroundColor: "#f0f0f0",
+            padding: 2,
+          }}
+        >
+          <Button variant="contained" onClick={addText} sx={{ marginBottom: 2 }}>
             Add Text
           </Button>
           <Button variant="contained" onClick={saveAsImage} color="success">
             Download Image
           </Button>
-        </Stack>
-        <canvas ref={canvasRef} />
+        </Box>
+
+        {/* Right Panel: Canvas Section */}
+        <Box
+          sx={{
+            flex: 3,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#ffffff",
+          }}
+        >
+          <Stage
+            ref={stageRef}
+            width={800}
+            height={500}
+            style={{ border: "1px solid black" }}
+          >
+            <Layer>
+              {image && (
+                <Image
+                  image={image}
+                  x={0}
+                  y={0}
+                  width={imageProps.width}
+                  height={imageProps.height}
+                />
+              )}
+              {texts.map((text) => (
+                <Text
+                  key={text.id}
+                  {...text}
+                  onDragMove={(e) => handleDragMove(e, text.id)} // Update text position on drag
+                  onTransform={(e) => handleScale(e, text.id)} // Update text scaling
+                  onTransformEnd={(e) => handleRotation(e, text.id)} // Update text rotation
+                  onClick={() => handleTextClick(text.id)} // Start editing on click
+                  fontSize={text.fontSize}
+                />
+              ))}
+            </Layer>
+          </Stage>
+
+          {/* Editable Text Input Overlay */}
+          {isEditing && (
+            <input
+              type="text"
+              value={texts.find((text) => text.id === isEditing).text}
+              onChange={(e) => handleTextChange(e, isEditing)}
+              onBlur={handleTextBlur}
+              style={{
+                position: "absolute",
+                top: texts.find((text) => text.id === isEditing).y,
+                left: texts.find((text) => text.id === isEditing).x,
+                fontSize: `${texts.find((text) => text.id === isEditing).fontSize}px`,
+                transform: `rotate(${
+                  texts.find((text) => text.id === isEditing).rotation
+                }deg)`,
+                border: "1px solid black", // Optional styling for the input field
+              }}
+            />
+          )}
+        </Box>
       </Box>
     </>
   );
